@@ -1,0 +1,11 @@
+.GuessList {
+    border: 1px solid black;
+    min-height: 400px;
+    padding: 16px;
+    word-break: break-all;
+}
+
+.guess-text {
+    font-size: 24pt;
+    margin: 4px;
+}

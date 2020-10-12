@@ -1,0 +1,8 @@
+
+.board-space {
+    font-size: 24pt;
+    text-decoration: underline;
+    margin-left: 4px;
+    margin-right: 4px;
+    text-align: center;
+}
