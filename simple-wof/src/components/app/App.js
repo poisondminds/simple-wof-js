@@ -6,12 +6,34 @@ import Alphabet from '../alphabet/Alphabet';
 import GuessList from '../guess_list/GuessList';
 import CurrentScore from '../current_score/CurrentScore';
 import Bet from '../bet/Bet';
-import WinBox from '../win_box/WinBox';
+import WinModal from '../win_modal/WinModal';
 
 class App extends Component {
   constructor() {
     super();    
     this.state = this.getInitialState();
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Nav />
+        <div id="main-content">
+          <div className="row">
+            <div className="col-sm-8">
+              <Bet bet={this.state.currentBet}/>
+              <Board phrase={this.state.phrase} guessMap={this.state.guessMap} hasWon={this.state.hasWon}/>
+              <Alphabet guessMap={this.state.guessMap} onGuess={this.handleGuess}/>
+            </div>
+            <div className="col-sm-4">
+              <CurrentScore score={this.state.currentScore}/>
+              <GuessList guesses={this.state.guesses} guessMap={this.state.guessMap}/>
+            </div>
+          </div>
+        </div>
+        <WinModal isOpen={this.state.hasWon} onRestart={this.handleRestart}/>
+      </div>
+    );
   }
 
   buildHiddenLetters(phrase) {
@@ -54,28 +76,6 @@ class App extends Component {
 
   handleRestart= () => {
     this.setState(this.getInitialState());
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Nav />
-        <div id="main-content">
-          <div className="row">
-            <div className="col-sm-8">
-              <Bet bet={this.state.currentBet}/>
-              <Board phrase={this.state.phrase} guessMap={this.state.guessMap} hasWon={this.state.hasWon}/>
-              <Alphabet guessMap={this.state.guessMap} onGuess={this.handleGuess}/>
-              { this.state.hasWon ? <WinBox onRestart={this.handleRestart}/> : ''}
-            </div>
-            <div className="col-sm-4">
-              <CurrentScore score={this.state.currentScore}/>
-              <GuessList guesses={this.state.guesses} guessMap={this.state.guessMap}/>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   getNextBet() {
