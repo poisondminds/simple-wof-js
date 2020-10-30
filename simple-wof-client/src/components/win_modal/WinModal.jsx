@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import Modal from "react-modal";
+import apis from "../../api";
+import ScoresTable from "../scores/ScoreTable";
 import "./WinModal.css";
 
 class WinModal extends Component {
+  state = {
+    username: "",
+  };
+
   render() {
     const customStyles = {
       content: {
@@ -19,16 +25,19 @@ class WinModal extends Component {
     return (
       <Modal isOpen={this.props.isOpen} style={customStyles}>
         <h1>YOU WIN!</h1>
+        <ScoresTable />
         <form onSubmit={this.onSaveScore}>
           <input
             id="user-name"
             type="text"
             placeholder="Enter Name"
+            value={this.state.username}
+            onChange={this.handleUsernameChange}
             required
           ></input>
           <input
             type="submit"
-            title="Save Score"
+            value="Save Score"
             className="btn-success"
           ></input>
         </form>
@@ -40,9 +49,17 @@ class WinModal extends Component {
     );
   }
 
+  handleUsernameChange = (event) => {
+    this.setState({ username: event.target.value });
+  };
+
   onSaveScore = (event) => {
     event.preventDefault();
-    alert("Not yet implemented");
+    apis.insertScore({
+      username: this.state.username,
+      score: this.props.score,
+    });
+    this.props.onRestart();
   };
 }
 

@@ -31,7 +31,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <WinModal isOpen={this.state.hasWon} onRestart={this.handleRestart}/>
+        <WinModal isOpen={this.state.hasWon} onRestart={this.handleRestart} score={this.state.currentScore}/>
       </div>
     );
   }
