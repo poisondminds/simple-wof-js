@@ -4,7 +4,9 @@ import "./GuessList.css";
 class GuessList extends Component {
   renderGuesses = () => {
     return this.props.guesses.map((letter) => {
-      return <span className="guess-text">{letter}</span>;
+      const colorClass =
+        this.props.guessMap[letter] === true ? "text-success" : "text-danger";
+      return <span className={"guess-text " + colorClass}>{letter}</span>;
     });
   };
 

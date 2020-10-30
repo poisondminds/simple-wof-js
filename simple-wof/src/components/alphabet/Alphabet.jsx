@@ -8,6 +8,7 @@ class Alphabet extends Component {
       return (
         <button
           className="btn btn-outline-dark btn-alphabet"
+          disabled={this.props.guessMap[letter] != null}
           onClick={() => {
             this.props.onGuess(letter);
           }}
