@@ -34,7 +34,7 @@ createScore = (req, res) => {
 }
 
 getScores = async (req, res) => {
-    await Score.find({}, (err, scores) => {
+    await Score.find({}).sort('-score').exec(function(err, scores) {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }

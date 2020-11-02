@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import apis from "../../api";
+import "./ScoreTable.css";
 
 class ScoresTable extends Component {
   state = {
@@ -13,7 +14,7 @@ class ScoresTable extends Component {
 
   render() {
     return (
-      <table>
+      <table className="ScoreTable">
         <tr>
           <th>User</th>
           <th>Score</th>
