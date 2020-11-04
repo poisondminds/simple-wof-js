@@ -5,10 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "node simple-wof-server/index.js",
             "name": "Launch simple-wof-server",
+            "program": "${workspaceFolder}/simple-wof-server/index.js",
             "request": "launch",
-            "type": "node-terminal"
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
         },
         {
             "type": "chrome",
