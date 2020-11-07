@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Launch Scores Service",
-            "program": "${workspaceFolder}/simple-wof-server/index.js",
+            "program": "${workspaceFolder}/service-scores/index.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -12,7 +12,7 @@
         },
         {
             "name": "Launch Phrases Service",
-            "program": "${workspaceFolder}/simple-wof-service-phrases/index.js",
+            "program": "${workspaceFolder}/service-phrases/index.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -27,7 +27,7 @@
             "webRoot": "${workspaceFolder}"
         },
         {
-            "command": "BROWSER=none npm start --prefix simple-wof-client",
+            "command": "BROWSER=none npm start --prefix client",
             "name": "Start Client",
             "request": "launch",
             "type": "node-terminal"
