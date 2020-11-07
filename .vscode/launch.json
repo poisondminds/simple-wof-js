@@ -1,12 +1,18 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch simple-wof-server",
+            "name": "Launch Scores Service",
             "program": "${workspaceFolder}/simple-wof-server/index.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Launch Phrases Service",
+            "program": "${workspaceFolder}/simple-wof-service-phrases/index.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -16,12 +22,12 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against simple-wof-client",
+            "name": "Launch Client",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
         },
         {
-            "command": "npm start --prefix simple-wof-client",
+            "command": "BROWSER=none npm start --prefix simple-wof-client",
             "name": "Start Client",
             "request": "launch",
             "type": "node-terminal"

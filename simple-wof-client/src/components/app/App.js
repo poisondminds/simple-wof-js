@@ -1,17 +1,28 @@
-import React, { Component } from 'react';
-import './App.css';
-import Nav from '../nav/Nav';
-import Board from '../board/Board';
-import Alphabet from '../alphabet/Alphabet';
-import GuessList from '../guess_list/GuessList';
-import CurrentScore from '../current_score/CurrentScore';
-import Bet from '../bet/Bet';
-import WinModal from '../win_modal/WinModal';
+import React, { Component } from "react";
+import "./App.css";
+import Nav from "../nav/Nav";
+import Board from "../board/Board";
+import Alphabet from "../alphabet/Alphabet";
+import GuessList from "../guess_list/GuessList";
+import CurrentScore from "../current_score/CurrentScore";
+import Bet from "../bet/Bet";
+import WinModal from "../win_modal/WinModal";
+import phrasesApis from "../../api/phrases";
 
 class App extends Component {
+  state = {
+    phrase: "", // TODO: clue too (obj)
+    hiddenLetters: {}, // char -> int
+    guesses: [],
+    guessMap: {}, // char -> bool
+    currentBet: 0,
+    currentScore: 0,
+    hasWon: false,
+  };
+
   constructor() {
-    super();    
-    this.state = this.getInitialState();
+    super();
+    this.setInitialState();
   }
 
   render() {
@@ -21,17 +32,31 @@ class App extends Component {
         <div id="main-content">
           <div className="row">
             <div className="col-sm-8">
-              <Bet bet={this.state.currentBet}/>
-              <Board phrase={this.state.phrase} guessMap={this.state.guessMap} hasWon={this.state.hasWon}/>
-              <Alphabet guessMap={this.state.guessMap} onGuess={this.handleGuess}/>
+              <Bet bet={this.state.currentBet} />
+              <Board
+                phrase={this.state.phrase}
+                guessMap={this.state.guessMap}
+                hasWon={this.state.hasWon}
+              />
+              <Alphabet
+                guessMap={this.state.guessMap}
+                onGuess={this.handleGuess}
+              />
             </div>
             <div className="col-sm-4">
-              <CurrentScore score={this.state.currentScore}/>
-              <GuessList guesses={this.state.guesses} guessMap={this.state.guessMap}/>
+              <CurrentScore score={this.state.currentScore} />
+              <GuessList
+                guesses={this.state.guesses}
+                guessMap={this.state.guessMap}
+              />
             </div>
           </div>
         </div>
-        <WinModal isOpen={this.state.hasWon} onRestart={this.handleRestart} score={this.state.currentScore}/>
+        <WinModal
+          isOpen={this.state.hasWon}
+          onRestart={this.handleRestart}
+          score={this.state.currentScore}
+        />
       </div>
     );
   }
@@ -50,8 +75,9 @@ class App extends Component {
     return hiddenLetters;
   }
 
-  handleGuess = guessLetter => {
-    if (this.state.guessMap[guessLetter] != null) { // Already guessed
+  handleGuess = (guessLetter) => {
+    if (this.state.guessMap[guessLetter] != null) {
+      // Already guessed
       return;
     }
 
@@ -59,40 +85,44 @@ class App extends Component {
 
     let scoreIncrement = 0;
     if (isCorrect) {
-      scoreIncrement = this.state.hiddenLetters[guessLetter] * this.state.currentBet
+      scoreIncrement =
+        this.state.hiddenLetters[guessLetter] * this.state.currentBet;
       delete this.state.hiddenLetters[guessLetter];
-    } 
+    }
 
     this.state.guessMap[guessLetter] = isCorrect;
-    
-    const hasWon = Object.keys(this.state.hiddenLetters).length == 0;
-    this.setState({ 
+
+    const hasWon = Object.keys(this.state.hiddenLetters).length === 0;
+    this.setState({
       guesses: this.state.guesses.concat(guessLetter),
       currentScore: this.state.currentScore + scoreIncrement, // TODO: add to score
       currentBet: this.getNextBet(),
-      hasWon: hasWon
+      hasWon: hasWon,
     });
-  }
+  };
 
-  handleRestart= () => {
-    this.setState(this.getInitialState());
-  }
+  handleRestart = () => {
+    this.setInitialState();
+  };
 
   getNextBet() {
-    return Math.floor(Math.random() * Math.floor(100)); 
+    return Math.floor(Math.random() * Math.floor(100));
   }
 
-  getInitialState() {
-    const phrase = "cool";
-    return {
-      phrase: phrase,
-      hiddenLetters: this.buildHiddenLetters(phrase), // char -> int
-      guesses: [],
-      guessMap: {}, // char -> bool
-      currentBet: this.getNextBet(),
-      currentScore: 0,
-      hasWon: false
-    };
+  setInitialState() {
+    phrasesApis.getRandomPhrase().then((result) => {
+      const phrase = result.data.data.value;
+      console.log("Phrase " + phrase);
+      this.setState({
+        phrase: phrase, // TODO: clue too (obj)
+        hiddenLetters: this.buildHiddenLetters(phrase), // char -> int
+        guesses: [],
+        guessMap: {}, // char -> bool
+        currentBet: this.getNextBet(),
+        currentScore: 0,
+        hasWon: false,
+      });
+    });
   }
 }
 

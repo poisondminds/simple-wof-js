@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Modal from "react-modal";
-import apis from "../../api";
+import scoresApis from "../../api/scores";
 import ScoresTable from "../scores/ScoreTable";
 import "./WinModal.css";
 
@@ -55,7 +55,7 @@ class WinModal extends Component {
 
   onSaveScore = (event) => {
     event.preventDefault();
-    apis.insertScore({
+    scoresApis.insertScore({
       username: this.state.username,
       score: this.props.score,
     });

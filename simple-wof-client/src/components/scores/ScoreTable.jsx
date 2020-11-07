@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import apis from "../../api";
+import scoresApis from "../../api/scores";
 import "./ScoreTable.css";
 
 class ScoresTable extends Component {
@@ -38,7 +38,7 @@ class ScoresTable extends Component {
   };
 
   fetchScores() {
-    apis.getAllScores().then((scores) => {
+    scoresApis.getAllScores().then((scores) => {
       this.setState({
         scores: scores.data.data,
       });
